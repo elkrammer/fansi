@@ -3,10 +3,12 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <string.h>
 
-void load_ansi_file(const char *filename) {
+char *load_ansi_file(const char *filename) {
     char *buffer = NULL;
     unsigned int buffer_size = 0;
+
     int fd = open(filename, O_RDONLY); // file descriptor
 
     if (fd < 0) {
@@ -27,9 +29,17 @@ void load_ansi_file(const char *filename) {
         exit(EXIT_FAILURE);
     }
 
-    printf("%s", buffer);
+    char *file = malloc(buffer_size);
+    memcpy(file, buffer, buffer_size);
+    free(file);
 
     // clean up
     munmap(buffer, buffer_size);
     close(fd);
+
+    return file;
+}
+
+void draw_ansi_art(const char *art) {
+    printf("%s", art);
 }
