@@ -32,7 +32,8 @@ struct sauce_info {
 };
 
 // function prototypes
+void print_sauce_info(char *filename);
 struct sauce_info *read_sauce_info(char *filename);
 static char *parse_sauce_field(char *input, size_t input_length);
 
-#endif /* SAUCE_H */
+#endif // SAUCE_H

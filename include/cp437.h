@@ -4,5 +4,6 @@
 #include <wchar.h>
 
 extern wchar_t cp437[];
+void print_cp437();
 
-#endif
+#endif // CP437_H

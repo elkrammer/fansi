@@ -5,6 +5,24 @@
 
 #include "sauce.h"
 
+void print_sauce_info(char *filename) {
+    struct sauce_info *sauce;
+    sauce = read_sauce_info(filename);
+
+    if (!sauce) {
+        printf("No SAUCE information for this file");
+        exit(0);
+    }
+
+    printf("Artwork Name : '%s'\n", sauce->workname);
+    printf("Author       : '%s'\n", sauce->author);
+    printf("Group Name   : '%s'\n", sauce->group);
+    printf("Date         : '%s'\n", sauce->date);
+
+    // clean up
+    free(sauce);
+}
+
 // http://www.acid.org/info/sauce/sauce.htm
 // http://www.retroarchive.org/swag/DATATYPE/0036.PAS.html
 struct sauce_info *read_sauce_info(char *filename) {
