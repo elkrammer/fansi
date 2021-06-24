@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <locale.h>
 
 #include "cp437.h"
 
@@ -74,7 +73,6 @@ wchar_t cp437[] = {
 };
 
 void print_cp437() {
-    setlocale(LC_ALL, "en_US.utf8");
     unsigned int y = 0;
     for (int x = 0; x < 256; x++) {
         fputwc(cp437[x], stdout);
