@@ -3,6 +3,7 @@
 
 #include <wchar.h>
 
+// prototypes
 extern wchar_t cp437[];
 void print_cp437();
 

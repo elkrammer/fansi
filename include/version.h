@@ -1,0 +1,13 @@
+#ifndef VERSION_H
+#define VERSION_H
+
+#define VERSION_MAJOR 0
+#define VERSION_MINOR 0
+#define VERSION_MICRO 1
+
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
+#define VERSION STR(VERSION_MAJOR)"."STR(VERSION_MINOR)"."STR(VERSION_MICRO)
+
+#endif // VERSION_H
