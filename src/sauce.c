@@ -52,6 +52,13 @@ struct sauce_info *read_sauce_info(char *filename) {
     info->group     = parse_sauce_field(sauce.Group, sizeof sauce.Group);
     info->date      = parse_sauce_field(sauce.Date, sizeof sauce.Date);
 
+    // check if data is valid
+    if(strstr(sauce.Title, "\033[") != NULL) {
+        fclose(input);
+        fprintf(stderr, "Parsing of SAUCE record seems to have failed for file: %s.\n", filename);
+        exit(1);
+    }
+
     fclose(input);
     return info;
 }

@@ -7,10 +7,10 @@ SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 CPPFLAGS := -Iinclude -MMD -MP
-CFLAGS   := -std=c99 -Wall -Wextra
+CFLAGS   := -std=c89 -pedantic
 CFLAGS   := -g # debugging symbols. TODO: turn off for prod build :P
-LDFLAGS  := -Llib
-LDLIBS   := -lm
+LDFLAGS  :=
+LDLIBS   :=
 
 .PHONY: all clean
 
