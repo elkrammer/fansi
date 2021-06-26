@@ -5,6 +5,17 @@
 
 #include "version.h"
 
+void print_usage() {
+    print_logo();
+    fprintf(stderr,
+            " usage:\n"
+            "    ./fansi [-p] [-f filename] [-s filename] \n"
+            "       -f:            print ANSI file to terminal\n"
+            "       -s:            print SAUCE of specified file\n"
+            "       -p:            print codepage 437 as UTF-8 characters\n"
+            "       -h:            print usage information\n");
+}
+
 void print_logo() {
     char *logo =
         "   ·▄▄▄ ▄▄▄·  ▐ ▄ .▄▄ · ▪  \n"
@@ -20,13 +31,22 @@ void print_logo() {
     fprintf(stderr, "\033[0m"); // reset terminal
 }
 
-void print_usage() {
-    print_logo();
-    fprintf(stderr,
-            " usage:\n"
-            "    ./fansi [-p] [-f filename] [-s filename] \n"
-            "       -f:            print ANSI file to terminal\n"
-            "       -s:            print SAUCE of specified file\n"
-            "       -p:            print codepage 437 as UTF-8 characters\n"
-            "       -h:            print usage information\n");
+// strips spaces from string
+char *trimwhitespace(char *str) {
+    char *end;
+
+    // trim leading space
+    while(isspace((unsigned char)*str)) str++;
+
+    if(*str == 0)  // all spaces?
+        return str;
+
+    // trim trailing space
+    end = str + strlen(str) - 1;
+    while(end > str && isspace((unsigned char)*end)) end--;
+
+    // add null terminator character
+    end[1] = '\0';
+
+    return str;
 }
