@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "cp437.h"
+#include "parser.h"
 #include "sauce.h"
 #include "util.h"
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[]) {
                 print_cp437();
                 break;
             case 'f':
-                printf("print ansi art\n");
+                draw_ansi_art(optarg);
                 break;
             case 's':
                 print_sauce_info(optarg);

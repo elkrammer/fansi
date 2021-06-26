@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "sauce.h"
+#include "util.h"
 
 void print_sauce_info(char *filename) {
     struct sauce_info *sauce;
@@ -14,10 +14,10 @@ void print_sauce_info(char *filename) {
         exit(0);
     }
 
-    printf("Artwork Name : '%s'\n", sauce->workname);
-    printf("Author       : '%s'\n", sauce->author);
-    printf("Group Name   : '%s'\n", sauce->group);
-    printf("Date         : '%s'\n", sauce->date);
+    printf("Artwork Name: '%s'\n", sauce->workname);
+    printf("Author      : '%s'\n", sauce->author);
+    printf("Group Name  : '%s'\n", sauce->group);
+    printf("Date        : '%s'\n", sauce->date);
 
     // clean up
     free(sauce);
@@ -61,26 +61,6 @@ struct sauce_info *read_sauce_info(char *filename) {
 
     fclose(input);
     return info;
-}
-
-// strips spaces
-char *trimwhitespace(char *str) {
-    char *end;
-
-    // trim leading space
-    while(isspace((unsigned char)*str)) str++;
-
-    if(*str == 0)  // all spaces?
-        return str;
-
-    // trim trailing space
-    end = str + strlen(str) - 1;
-    while(end > str && isspace((unsigned char)*end)) end--;
-
-    // add null terminator character
-    end[1] = '\0';
-
-    return str;
 }
 
 static char *parse_sauce_field(char *input, size_t input_length) {
