@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <wchar.h>
 
 #include "cp437.h"
@@ -71,6 +72,9 @@ next_state:
 
                 // print characters to screen and advance cursor position
                 else {
+                    // slow down output to sort of simulate a slow 14.4kbps connection
+                    // TODO: make this configurable? could get annoying for long files
+                    usleep(110);
                     // character needs to be converted to unicode
                     if ((unsigned char)*artwork >= (unsigned char)128)
                         fputwc(cp437[(*artwork)&0xFF], stdout);
@@ -138,7 +142,7 @@ next_state:
                 // move cursor forward
                 else if (*artwork == 'C') {
                     cursor_pos = cursor_pos + args[0];
-                    if (cursor_pos >= 79) {
+                    if (cursor_pos >= 80) {
                         wprintf(L"\e[0m\n");
                         cursor_pos = cursor_pos % 80;
                     }
@@ -180,10 +184,6 @@ get_next_char:
     } // while loop
     wprintf(L"\e[m\n"); // reset terminal
 
-    // Simulate 14.4kbps
-    /* usleep(69); */
-
-    /* free(artwork); */
 } // draw_ansi_art
 
 // check if this is a CSI Control Sequence
