@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,20 +11,30 @@
 // read ansi art file into a buffer
 char *read_ansi_file(const char *filename) {
     FILE *input = fopen(filename, "r");
-    char *artwork;
-
     if (!input) {
-        fclose(input);
-        fprintf(stderr, "Failed to open file %s.\n", filename);
+        fprintf(stderr, "Error: Failed to open file %s.\n", filename);
         exit(1);
     }
 
-    // TODO: validate this is actually an ANSI art file
+    // check if this file is actually an ANSI Art file
+    char *ext = strrchr(filename, '.');
+    for (int i = 0; i < strlen(ext); i++)
+        ext[i] = tolower(ext[i]);
 
+    if (!ext || ext == filename || strcmp(ext, ".ans") != 0) {
+        fprintf(stderr, "Error: Only ANSI Art files are supported\n");
+        exit(1);
+    }
+
+    // get file size
     fseek(input, 0, SEEK_END);
     long input_size = ftell(input);
+
+    // move cursor to the begining of file
     fseek(input, 0, SEEK_SET);
-    artwork = malloc(input_size);
+
+    // allocate memory for the artwork
+    char *artwork = malloc(input_size);
 
     unsigned int ch;
     size_t n = 0;
