@@ -10,8 +10,8 @@ void print_sauce_info(char *filename) {
     sauce = read_sauce_info(filename);
 
     if (!sauce) {
-        printf("No SAUCE information for this file");
-        exit(0);
+        fprintf(stderr, "File '%s' has no SAUCE information.", filename);
+        exit(1);
     }
 
     printf("Artwork Name: '%s'\n", sauce->workname);
@@ -32,14 +32,13 @@ struct sauce_info *read_sauce_info(char *filename) {
     info = calloc(1, sizeof(struct sauce_info));
 
     if (!input) {
-        fclose(input);
-        fprintf(stderr, "Failed to open file %s.\n", filename);
+        fprintf(stderr, "Error: Failed to open file '%s' to read SAUCE information.\n", filename);
         exit(1);
     }
 
     if (fseek(input, -sizeof(sauce), SEEK_END) != 0) {
         fclose(input);
-        fprintf(stderr, "Unable to read SAUCE record from %s.\n", filename);
+        fprintf(stderr, "Error: Unable to read SAUCE record from file '%s'.\n", filename);
         exit(1);
     }
 
@@ -52,10 +51,10 @@ struct sauce_info *read_sauce_info(char *filename) {
     info->group     = parse_sauce_field(sauce.Group, sizeof sauce.Group);
     info->date      = parse_sauce_field(sauce.Date, sizeof sauce.Date);
 
-    // check if data is valid
+    // check if data is valid by looking for an ANSI escape sequence in the Title
     if(strstr(sauce.Title, "\033[") != NULL) {
         fclose(input);
-        fprintf(stderr, "Parsing of SAUCE record seems to have failed for file: %s.\n", filename);
+        fprintf(stderr, "Error: Parsing of SAUCE record for file '%s' has failed.\n", filename);
         exit(1);
     }
 
@@ -69,7 +68,7 @@ static char *parse_sauce_field(char *input, size_t input_length) {
     strncpy(result, input, input_length);
 
     if (!result) {
-        fprintf(stderr, "Error parsing sauce field :%s", input);
+        fprintf(stderr, "Error: Could not parse sauce field '%s'", input);
         return input;
     }
 

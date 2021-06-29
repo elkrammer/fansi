@@ -12,7 +12,7 @@
 char *read_ansi_file(const char *filename) {
     FILE *input = fopen(filename, "r");
     if (!input) {
-        fprintf(stderr, "Error: Failed to open file %s.\n", filename);
+        fprintf(stderr, "Error: Failed to open file '%s'.\n", filename);
         exit(1);
     }
 
