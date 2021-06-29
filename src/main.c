@@ -1,3 +1,5 @@
+#include <assert.h>
+#include <getopt.h>
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,26 +16,38 @@ int main(int argc, char *argv[]) {
     locale = setlocale(LC_ALL, "");
 
     if(strstr(locale, "UTF8") == NULL && strstr (locale, "UTF-8") == NULL) {
-        printf("Your terminal doesn't support UTF-8.");
+        fprintf(stderr, "Your terminal doesn't support UTF-8.");
         return 1;
     }
 
     if (argc < 2) {
         print_usage();
-        exit(0);
+        exit(1);
     }
 
-    int opt;
-    while ((opt = getopt(argc, argv, "pf:s:h")) != -1) {
+    int opt = 0;
+    while (opt != -1) {
+        int option_index = 0;
+        static struct option long_options[] = {
+            {"cp437",   no_argument,       NULL,    0},
+            {"help",    no_argument,       NULL,  'h'},
+            {"sauce",   required_argument, NULL,    0},
+            {NULL,      0,                 NULL,    0}
+        };
+
+        opt = getopt_long(argc, argv, ":h", long_options, &option_index);
+
         switch (opt) {
-            case 'p':
-                print_cp437();
+            // no args
+            case -1:
                 break;
-            case 'f':
-                draw_ansi_art(optarg);
-                break;
-            case 's':
-                print_sauce_info(optarg);
+            // long options are being used
+            case 0:
+                if (long_options[option_index].name == "sauce" && optarg) {
+                    print_sauce_info(optarg);
+                } else if (long_options[option_index].name == "cp437") {
+                    print_cp437();
+                }
                 break;
             case 'h':
                 print_usage();
@@ -43,7 +57,20 @@ int main(int argc, char *argv[]) {
                 print_usage();
                 exit(1);
                 break;
+            case ':':
+                fprintf(stderr, "Missing option for %c\n", optopt);
+                break;
+            default:
+                print_usage();
+                exit(1);
+                break;
         }
+    }
+
+    // only one argument provided, try to render ansi art for that file
+    if ((argc == 2) && (optind == 1)) {
+        draw_ansi_art(argv[optind]);
+        exit(0);
     }
 
     return 0;

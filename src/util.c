@@ -10,12 +10,11 @@
 void print_usage() {
     print_logo();
     fprintf(stderr,
-            " usage:\n"
-            "    ./fansi [-p] [-f filename] [-s filename] \n"
-            "       -f:            print ANSI file to terminal\n"
-            "       -s:            print SAUCE of specified file\n"
-            "       -p:            print codepage 437 as UTF-8 characters\n"
-            "       -h:            print usage information\n");
+            "Usage: fansi [options] filename\n\n"
+            "Options:\n"
+            "       --sauce filename    Print SAUCE metadata for file\n"
+            "       --cp437             Print Code Page 437 table as UTF-8 characters\n"
+            "  -h   --help              Display this information\n");
 }
 
 void print_logo() {
