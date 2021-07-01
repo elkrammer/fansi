@@ -31,10 +31,9 @@ $ make
 
 Options:
 
-* --sauce FILE: print SAUCE metadata for file
-*      --cp437: print Code Page 437 as UTF-8 characters
-* -h    --help: print help text and exit
-
+--sauce FILE: print SAUCE metadata for file
+     --cp437: print Code Page 437 as UTF-8 characters
+-h    --help: print help text and exit
 ```
 
 You can use the `--cp437` option to check if your terminal font supports
