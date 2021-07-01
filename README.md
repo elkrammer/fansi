@@ -1,6 +1,8 @@
-<h1 align="center">fANSI</h1>
+# fANSI
 
 fANSI allows you to display legacy / retro ANSI art in your terminal.
+
+![screenshot](https://user-images.githubusercontent.com/64374/124131577-f274a600-da4d-11eb-9f68-d8ca0f2d7154.png)j
 
 ## Features
 
