@@ -21,18 +21,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // check terminal size
-    // https://man7.org/linux/man-pages/man4/tty_ioctl.4.html
-    struct winsize term_size;
-    ioctl(STDIN_FILENO, TIOCGWINSZ, &term_size);
-
-    if (term_size.ws_col < 80) {
-        fprintf(stderr, "Your terminal window is currently smaller than 80"
-                " columns. Please make your terminal bigger for correct"
-                " rendering of art files\n");
-        return 1;
-    }
-
     if (argc < 2) {
         print_usage();
         exit(1);
@@ -72,7 +60,7 @@ int main(int argc, char *argv[]) {
                 exit(1);
                 break;
             case ':':
-                fprintf(stderr, "Missing option for %c\n", optopt);
+                fprintf(stderr, "Missing filename or directory\n");
                 break;
             default:
                 print_usage();
@@ -83,6 +71,17 @@ int main(int argc, char *argv[]) {
 
     // only one argument provided, try to render ansi art for that file
     if ((argc == 2) && (optind == 1)) {
+        // check terminal size
+        // https://man7.org/linux/man-pages/man4/tty_ioctl.4.html
+        struct winsize term_size;
+        ioctl(STDIN_FILENO, TIOCGWINSZ, &term_size);
+
+        if (term_size.ws_col < 80) {
+            fprintf(stderr, "Your terminal window is currently smaller than 80"
+                    " columns. Please make your terminal bigger for correct"
+                    " rendering of art files\n");
+            return 1;
+        }
         draw_ansi_art(argv[optind]);
         exit(0);
     }
