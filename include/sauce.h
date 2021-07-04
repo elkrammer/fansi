@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // http://www.acid.org/info/sauce/sauce.htm
 struct sauce_record {

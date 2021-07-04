@@ -1,6 +1,14 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <wchar.h>
+#include <sys/ioctl.h>
+
 typedef enum {
     CONTINUE,           // continue parsing file
     GET_NEXT_CHAR,      // get next character

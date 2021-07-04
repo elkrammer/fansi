@@ -1,10 +1,3 @@
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <wchar.h>
-
 #include "cp437.h"
 #include "parser.h"
 
@@ -49,6 +42,17 @@ char *read_ansi_file(const char *filename) {
 }
 
 void draw_ansi_art(const char *filename) {
+    // check terminal size
+    // https://man7.org/linux/man-pages/man4/tty_ioctl.4.html
+    struct winsize term_size;
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &term_size);
+
+    if (term_size.ws_col < 80) {
+        fprintf(stderr, "Your terminal window is currently smaller than 80"
+                " columns. Please make your terminal bigger for correct"
+                " rendering of art files\n");
+        exit(1);
+    }
     char *artwork = read_ansi_file(filename);
     size_t artwork_size = strlen(artwork);
     char *artworkend = (char*) ((unsigned long) artwork + artwork_size); // memory address of the end of array
