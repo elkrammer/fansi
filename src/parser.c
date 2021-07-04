@@ -18,7 +18,8 @@ char *read_ansi_file(const char *filename) {
 
     // check if this file is actually an ANSI Art file
     char *ext = strrchr(filename, '.');
-    for (int i = 0; i < strlen(ext); i++)
+    unsigned int i = 0;
+    for (i = 0; i < strlen(ext); i++)
         ext[i] = tolower(ext[i]);
 
     if (!ext || ext == filename || strcmp(ext, ".ans") != 0) {
@@ -201,7 +202,8 @@ get_next_char:
 // https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences
 unsigned char is_csi_cmd(char c) {
     char csi[] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'S', 'T', 'f', 'm', 'n', 's', 'u', 'l', 'h' };
-    for (unsigned int i = 0; i < strlen(csi); i++) {
+    unsigned int i = 0;
+    for (i = 0; i < strlen(csi); i++) {
         if (csi[i] == c)
             return 1; // character is CSI
     }

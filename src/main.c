@@ -3,6 +3,7 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 
 #include "cp437.h"
@@ -20,11 +21,24 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // check terminal size
+    // https://man7.org/linux/man-pages/man4/tty_ioctl.4.html
+    struct winsize term_size;
+    ioctl(STDIN_FILENO, TIOCGWINSZ, &term_size);
+
+    if (term_size.ws_col < 80) {
+        fprintf(stderr, "Your terminal window is currently smaller than 80"
+                " columns. Please make your terminal bigger for correct"
+                " rendering of art files\n");
+        return 1;
+    }
+
     if (argc < 2) {
         print_usage();
         exit(1);
     }
 
+    // parse cmd line options
     int opt = 0;
     while (opt != -1) {
         int option_index = 0;
@@ -43,9 +57,9 @@ int main(int argc, char *argv[]) {
                 break;
             // long options are being used
             case 0:
-                if (long_options[option_index].name == "sauce" && optarg) {
+                if (strcmp(long_options[option_index].name, "sauce") == 0 && optarg) {
                     print_sauce_info(optarg);
-                } else if (long_options[option_index].name == "cp437") {
+                } else if (strcmp(long_options[option_index].name, "cp437") == 0) {
                     print_cp437();
                 }
                 break;

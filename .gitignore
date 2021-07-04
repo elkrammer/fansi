@@ -24,3 +24,5 @@
 *.hex
 fansi
 examples/*
+.ccls-cache
+.clangd

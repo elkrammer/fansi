@@ -73,8 +73,9 @@ wchar_t cp437[] = {
 };
 
 void print_cp437() {
+    unsigned int x = 0;
     unsigned int y = 0;
-    for (int x = 0; x < 256; x++) {
+    for (x = 0; x < 256; x++) {
         fputwc(cp437[x], stdout);
         y++;
         if (y == 32) {
