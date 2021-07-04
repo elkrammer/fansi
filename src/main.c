@@ -1,10 +1,5 @@
-#include <assert.h>
 #include <getopt.h>
 #include <locale.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
 
 #include "cp437.h"
 #include "parser.h"
@@ -16,7 +11,7 @@ int main(int argc, char *argv[]) {
     char *locale;
     locale = setlocale(LC_ALL, "");
 
-    if(strstr(locale, "UTF8") == NULL && strstr (locale, "UTF-8") == NULL) {
+    if(strstr(locale, "UTF8") == NULL && strstr(locale, "UTF-8") == NULL) {
         fprintf(stderr, "Your terminal doesn't support UTF-8.");
         return 1;
     }
@@ -34,6 +29,7 @@ int main(int argc, char *argv[]) {
             {"cp437",   no_argument,       NULL,    0},
             {"help",    no_argument,       NULL,  'h'},
             {"sauce",   required_argument, NULL,    0},
+            {"ssaver",  required_argument, NULL,    0},
             {NULL,      0,                 NULL,    0}
         };
 
@@ -49,6 +45,8 @@ int main(int argc, char *argv[]) {
                     print_sauce_info(optarg);
                 } else if (strcmp(long_options[option_index].name, "cp437") == 0) {
                     print_cp437();
+                } else if (strcmp(long_options[option_index].name, "ssaver") == 0 && optarg) {
+                    screensaver_mode(optarg);
                 }
                 break;
             case 'h':
@@ -71,17 +69,6 @@ int main(int argc, char *argv[]) {
 
     // only one argument provided, try to render ansi art for that file
     if ((argc == 2) && (optind == 1)) {
-        // check terminal size
-        // https://man7.org/linux/man-pages/man4/tty_ioctl.4.html
-        struct winsize term_size;
-        ioctl(STDIN_FILENO, TIOCGWINSZ, &term_size);
-
-        if (term_size.ws_col < 80) {
-            fprintf(stderr, "Your terminal window is currently smaller than 80"
-                    " columns. Please make your terminal bigger for correct"
-                    " rendering of art files\n");
-            return 1;
-        }
         draw_ansi_art(argv[optind]);
         exit(0);
     }

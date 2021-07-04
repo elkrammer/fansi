@@ -1,18 +1,52 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
-#include <ctype.h>
-
+#include "parser.h"
 #include "util.h"
 #include "version.h"
+
+static int ansi_art_found(const struct dirent *dir) {
+    if (!dir)
+        return 0;
+
+    if (dir->d_type == DT_REG) { // deal only with regular files
+        const char *ext = strrchr(dir->d_name, '.');
+        if ((!ext) || (ext == dir->d_name))
+            return 0;
+        else {
+            if (strcmp(ext, ".ans") == 0 || strcmp(ext, ".ANS") == 0)
+                return 1;
+        }
+    }
+    return 0;
+}
+
+void screensaver_mode(char *directory) {
+    struct dirent **namelist;
+    int n;
+    n = scandir(directory, &namelist, ansi_art_found, alphasort);
+    if (n < 0) {
+        fprintf(stderr, "No ANSI Art files found in directory %s\n", directory);
+        exit(1);
+    }
+
+    srand(time(NULL));
+
+    while (1) {
+        char file[256];
+        unsigned int i = rand() % n;
+        snprintf(file, sizeof(file), "%s/%s", directory, namelist[i]->d_name);
+        draw_ansi_art(file);
+        usleep(1500000);
+    }
+
+    free(namelist);
+}
 
 void print_usage() {
     print_logo();
     fprintf(stderr,
             "Usage: fansi [options] filename\n\n"
             "Options:\n"
-            "       --sauce filename    Print SAUCE metadata for file\n"
+            "  -s   --ssaver dirname    Screen Saver mode\n"
+            "       --sauce  filename   Print SAUCE metadata for file\n"
             "       --cp437             Print Code Page 437 table as UTF-8 characters\n"
             "  -h   --help              Display this information\n");
 }
