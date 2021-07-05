@@ -29,11 +29,11 @@ int main(int argc, char *argv[]) {
             {"cp437",   no_argument,       NULL,    0},
             {"help",    no_argument,       NULL,  'h'},
             {"sauce",   required_argument, NULL,    0},
-            {"ssaver",  required_argument, NULL,    0},
+            {"ssaver",  required_argument, NULL,  's'},
             {NULL,      0,                 NULL,    0}
         };
 
-        opt = getopt_long(argc, argv, ":h", long_options, &option_index);
+        opt = getopt_long(argc, argv, ":s:h", long_options, &option_index);
 
         switch (opt) {
             // no args
@@ -48,6 +48,9 @@ int main(int argc, char *argv[]) {
                 } else if (strcmp(long_options[option_index].name, "ssaver") == 0 && optarg) {
                     screensaver_mode(optarg);
                 }
+                break;
+            case 's':
+                screensaver_mode(optarg);
                 break;
             case 'h':
                 print_usage();
