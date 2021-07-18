@@ -1,0 +1,2 @@
+-std=c89
+-Iinclude
