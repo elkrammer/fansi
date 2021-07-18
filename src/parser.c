@@ -30,6 +30,11 @@ char *read_ansi_file(const char *filename) {
     // allocate memory for the artwork
     char *artwork = malloc(input_size);
 
+    if (artwork == NULL) {
+        fprintf(stderr, "Error: Failed to allocate memory to read ansi file.\n");
+        exit(1);
+    }
+
     unsigned int ch;
     size_t n = 0;
     while ((ch = fgetc(input)) != EOF) {

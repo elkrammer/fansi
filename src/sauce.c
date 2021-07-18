@@ -61,6 +61,12 @@ struct sauce_info *read_sauce_info(char *filename) {
 static char *parse_sauce_field(char *input, size_t input_length) {
     char *result;
     result = malloc(input_length + 1);
+
+    if (result == NULL) {
+        fprintf(stderr, "Error: Failed to allocate memory for parsing sauce.\n");
+        exit(1);
+    }
+
     strncpy(result, input, input_length);
 
     if (!result) {
