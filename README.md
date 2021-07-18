@@ -8,11 +8,12 @@ fANSI allows you to display legacy / retro ANSI art in your terminal.
 
 * Display legacy ANSI (.ANS) art images in your terminal
 * Read SAUCE information
+* Screen Saver mode to display all files in a directory
 * Print [Code Page 437](https://en.wikipedia.org/wiki/Code_page_437) table as UTF-8 characters
 
 ## Requirements
 
-* Linux (haven't tested on other platforms)
+* Linux
 * UTF-8 capable terminal with 256 color support
 * Terminal font that provides glyphs for the CP437 characters (e.g., Hack, Consolas, Iosevka, etc)
 
@@ -31,6 +32,7 @@ $ make
 
 Options:
 
+-s  --ssaver: dirname    Screen Saver mode
 --sauce FILE: print SAUCE metadata for file
      --cp437: print Code Page 437 as UTF-8 characters
 -h    --help: print help text and exit
@@ -41,7 +43,6 @@ all CP437 glyphs.
 
 ## TODO / Ideas
 
-* screen saver mode
 * add support for .BIN files
 * add support for Xbin (.XB) files
 * rewrite using ncurses
