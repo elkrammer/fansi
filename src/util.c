@@ -86,3 +86,13 @@ char *trimwhitespace(char *str) {
 
     return str;
 }
+
+// checks if a char array contains only digits
+int isArrayNumeric(const char *str) {
+  unsigned int i;
+  for(i = 0; i < strlen(str); i++) {
+    if(!isdigit(str[i]))
+      return 1;
+  }
+  return 0;
+}

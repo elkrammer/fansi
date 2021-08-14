@@ -46,7 +46,12 @@ int main(int argc, char *argv[]) {
             // long options are being used
             case 0:
                 if (strcmp(long_options[option_index].name, "speed") == 0 && optarg) {
-                    speed = atoi(optarg);
+                    if (isArrayNumeric(optarg) == 0) {
+                        speed = atoi(optarg);
+                    } else {
+                        fprintf(stderr, "Invalid speed specified\n");
+                        exit(1);
+                    }
                 }
                 if (strcmp(long_options[option_index].name, "sauce") == 0 && optarg) {
                     print_sauce_info(optarg);

@@ -14,5 +14,6 @@ void print_logo();
 void print_usage();
 char *trimwhitespace(char *str);
 void screensaver_mode(const char *directory, const int speed);
+int isArrayNumeric(const char *str);
 
 #endif // UTIL_H
