@@ -21,6 +21,9 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    // define rendering speed for ANSI Art
+    unsigned int speed = 110;
+
     // parse cmd line options
     int opt = 0;
     while (opt != -1) {
@@ -30,6 +33,7 @@ int main(int argc, char *argv[]) {
             {"help",    no_argument,       NULL,  'h'},
             {"sauce",   required_argument, NULL,    0},
             {"ssaver",  required_argument, NULL,  's'},
+            {"speed",   required_argument, NULL,    0},
             {NULL,      0,                 NULL,    0}
         };
 
@@ -41,16 +45,19 @@ int main(int argc, char *argv[]) {
                 break;
             // long options are being used
             case 0:
+                if (strcmp(long_options[option_index].name, "speed") == 0 && optarg) {
+                    speed = atoi(optarg);
+                }
                 if (strcmp(long_options[option_index].name, "sauce") == 0 && optarg) {
                     print_sauce_info(optarg);
                 } else if (strcmp(long_options[option_index].name, "cp437") == 0) {
                     print_cp437();
                 } else if (strcmp(long_options[option_index].name, "ssaver") == 0 && optarg) {
-                    screensaver_mode(optarg);
+                    screensaver_mode(optarg, speed);
                 }
                 break;
             case 's':
-                screensaver_mode(optarg);
+                screensaver_mode(optarg, speed);
                 break;
             case 'h':
                 print_usage();
@@ -71,8 +78,8 @@ int main(int argc, char *argv[]) {
     }
 
     // only one argument provided, try to render ansi art for that file
-    if ((argc == 2) && (optind == 1)) {
-        draw_ansi_art(argv[optind]);
+    if ((argc == 2 || argc == 4) && (optind == 1 || optind == 3)) {
+        draw_ansi_art(argv[optind], speed);
         exit(0);
     }
 

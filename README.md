@@ -31,15 +31,14 @@ $ make
 ./fansi [options] filename
 
 Options:
-
--s  --ssaver: dirname    Screen Saver mode
---sauce FILE: print SAUCE metadata for file
-     --cp437: print Code Page 437 as UTF-8 characters
--h    --help: print help text and exit
+    --speed value         Set rendering speed. Default speed is 110 - increase it to slow down the output
+-s  --ssaver dirname      Screen Saver mode
+    --sauce filename      Print SAUCE metadata for file
+    --cp437               Print Code Page 437 as UTF-8 characters
+-h  --help                Print help text and exit
 ```
 
-You can use the `--cp437` option to check if your terminal font supports
-all CP437 glyphs.
+You may use the `--cp437` option to check if your terminal font supports all CP437 glyphs.
 
 ## TODO / Ideas
 
