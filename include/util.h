@@ -13,6 +13,6 @@
 void print_logo();
 void print_usage();
 char *trimwhitespace(char *str);
-void screensaver_mode(char *directory);
+void screensaver_mode(const char *directory, const int speed);
 
 #endif // UTIL_H

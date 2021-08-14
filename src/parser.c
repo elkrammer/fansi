@@ -46,7 +46,7 @@ char *read_ansi_file(const char *filename) {
     return artwork;
 }
 
-void draw_ansi_art(const char *filename) {
+void draw_ansi_art(const char *filename, const int speed) {
     // check terminal size
     // https://man7.org/linux/man-pages/man4/tty_ioctl.4.html
     struct winsize term_size;
@@ -93,9 +93,9 @@ next_state:
 
                 // print characters to screen and advance cursor position
                 else {
-                    // slow down output to sort of simulate a slow 14.4kbps connection
-                    // TODO: make this configurable? could get annoying for long files
-                    usleep(110);
+                    // slow down output to defined speed. Default Value = 110
+                    usleep(speed);
+
                     // character needs to be converted to unicode
                     if ((unsigned char)*artwork >= (unsigned char)128)
                         fputwc(cp437[(*artwork)&0xFF], stdout);
